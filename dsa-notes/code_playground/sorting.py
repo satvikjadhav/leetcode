@@ -15,9 +15,9 @@ def selection_sort(arr):
     return arr
 
 # Example usage
-numbers = [64, 34, 25, 12, 22, 11, 90]
-sorted_numbers = selection_sort(numbers)
-print(sorted_numbers)  # Output: [11, 12, 22, 25, 34, 64, 90]
+# numbers = [64, 34, 25, 12, 22, 11, 90]
+# sorted_numbers = selection_sort(numbers)
+# print(sorted_numbers)  # Output: [11, 12, 22, 25, 34, 64, 90]
 
 
 def bubble_sort(arr):
@@ -61,3 +61,47 @@ def insertion_sort(arr):
         arr[j + 1] = key
     
     return arr
+
+
+# Merge Sort
+
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    # Step 1: Divide the array into two halves
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+
+    # Step 2: Recursively sort each half
+    left_sorted = merge_sort(left_half)
+    right_sorted = merge_sort(right_half)
+
+    # Step 3: Merge the sorted halves
+    return merge(left_sorted, right_sorted)
+
+def merge(left, right):
+    sorted_arr = []
+    i = j = 0
+
+    # Merge elements from left and right arrays in a sorted order
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            sorted_arr.append(left[i])
+            i += 1
+        else:
+            sorted_arr.append(right[j])
+            j += 1
+
+    # Add remaning elements, if any, from both halves
+
+    sorted_arr.extend(left[i:])
+    sorted_arr.extend(right[j:])
+
+    return sorted_arr
+    
+# Test the function
+arr = [38, 27, 43, 3, 9, 82, 10]
+sorted_arr = merge_sort(arr)
+print("Sorted array:", sorted_arr)

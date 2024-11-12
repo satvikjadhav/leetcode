@@ -175,6 +175,120 @@ Key characteristics:
 5. Works well for small data sets
 6. Good for nearly-sorted data
 
+## Merge Sort
+Merge Sort is a **divide-and-conquer** sorting algorithm. It works by breaking down an array into smaller subarrays until each subarray has only one element (which is inherently sorted). Then, it merges these subarrays back together in a sorted order to form the final sorted array.
+
+### Steps of Merge Sort:
+1. **Divide** the array into two halves.
+2. **Recursively sort** each half.
+3. **Merge** the two halves back together in sorted order.
+
+### Characteristics of Merge Sort:
+- **Time Complexity**: \(O(n \log n)\) in the best, worst, and average cases.
+- **Space Complexity**: \(O(n)\) as it requires additional space for the temporary arrays during the merging step.
+- **Stability**: Yes, merge sort is a stable sort, meaning it preserves the relative order of elements with equal values.
+
+### Python Code Example
+
+Here's a Python implementation of merge sort:
+
+```python
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    # Step 1: Divide the array into two halves
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+    
+    # Step 2: Recursively sort each half
+    left_sorted = merge_sort(left_half)
+    right_sorted = merge_sort(right_half)
+    
+    # Step 3: Merge the sorted halves
+    return merge(left_sorted, right_sorted)
+
+def merge(left, right):
+    sorted_array = []
+    i = j = 0
+    
+    # Merge elements from left and right arrays in sorted order
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            sorted_array.append(left[i])
+            i += 1
+        else:
+            sorted_array.append(right[j])
+            j += 1
+    
+    # Add remaining elements (if any) from both halves
+    sorted_array.extend(left[i:])
+    sorted_array.extend(right[j:])
+    
+    return sorted_array
+
+# Test the function
+arr = [38, 27, 43, 3, 9, 82, 10]
+sorted_arr = merge_sort(arr)
+print("Sorted array:", sorted_arr)
+```
+
+Another example implementation of Merge Sort in Python: 
+
+```python
+def merge(arr, low, mid, high):
+    temp = []  # temporary array
+    left = low      # starting index of left half of arr
+    right = mid + 1   # starting index of right half of arr
+
+    # storing elements in the temporary array in a sorted manner
+    while left <= mid and right <= high:
+        if arr[left] <= arr[right]:
+            temp.append(arr[left])
+            left += 1
+        else:
+            temp.append(arr[right])
+            right += 1
+
+    # if elements on the left half are still left
+    while left <= mid:
+        temp.append(arr[left])
+        left += 1
+
+    # if elements on the right half are still left
+    while right <= high:
+        temp.append(arr[right])
+        right += 1
+
+    # transferring all elements from temporary to arr
+    for i in range(low, high + 1):
+        arr[i] = temp[i - low]
+
+def merge_sort(arr, low, high):
+    if low >= high:
+        return
+    mid = (low + high) // 2
+    merge_sort(arr, low, mid)      # left half
+    merge_sort(arr, mid + 1, high) # right half
+    merge(arr, low, mid, high)     # merging sorted halves
+
+# Example usage
+if __name__ == "__main__":
+    arr = [9, 4, 7, 6, 3, 1, 5]
+    n = len(arr)
+    
+    print("Before sorting array:", *arr)
+    merge_sort(arr, 0, n - 1)
+    print("After sorting array:", *arr)
+```
+
+### Explanation:
+- The `merge_sort` function recursively splits the input list until each sublist has only one element.
+- The `merge` function combines two sorted lists into one sorted list by comparing elements from both lists.
+  
+This implementation highlights how merge sort splits the array, sorts each half, and then merges the sorted halves to get the fully sorted array.
+
 
 ## Summary
 Even though selection sort, bubble sort, and insertion sort all have a time complexity of \(O(n^2)\), each has unique characteristics that can make it more suitable in specific situations. Here’s a breakdown of when to use each one:
@@ -199,3 +313,4 @@ Even though selection sort, bubble sort, and insertion sort all have a time comp
      - **Nearly sorted data**: Insertion sort is efficient for lists that are already mostly sorted, as it has a best-case of \(O(n)\).
      - **Small datasets**: It's often used for small arrays because it’s simple and has low overhead.
      - **Adaptive sorting**: Because it adapts to the initial order of the list, insertion sort can be preferable when you expect the list to have only a few elements out of place.
+
