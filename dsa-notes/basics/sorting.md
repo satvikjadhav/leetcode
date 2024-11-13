@@ -289,6 +289,61 @@ if __name__ == "__main__":
   
 This implementation highlights how merge sort splits the array, sorts each half, and then merges the sorted halves to get the fully sorted array.
 
+## Quick Sort
+
+Quick Sort is another **divide-and-conquer** sorting algorithm. Unlike merge sort, it sorts elements by partitioning the array around a chosen "pivot" element. The pivot separates the array into two halves: elements less than the pivot and elements greater than the pivot. Quick Sort then recursively sorts the subarrays.
+
+### Steps of Quick Sort:
+1. **Choose a pivot** element (commonly the last element in the array).
+2. **Partition** the array so that all elements less than the pivot are on its left, and all elements greater are on its right.
+3. **Recursively apply** the same process to the left and right subarrays until each subarray has one or zero elements.
+
+### Characteristics of Quick Sort:
+- **Time Complexity**:
+  - Best/Average case: \(O(n \log n)\)
+  - Worst case: \(O(n^2)\), which can happen if the pivot consistently divides the array unevenly (e.g., when the array is already sorted).
+- **Space Complexity**: \(O(\log n)\), as it requires additional space for recursive stack calls.
+- **In-Place Sorting**: Quick sort typically sorts the array in place without extra storage.
+- **Not Stable**: It doesn’t maintain the relative order of equal elements.
+
+### Python Code Example
+
+Here's an in-place version of quick sort, which modifies the array directly and is more space-efficient:
+
+```python
+def quick_sort_in_place(arr, low, high):
+    if low < high:
+        # Partition the array and get the pivot index
+        pivot_index = partition(arr, low, high)
+        
+        # Recursively apply to the left and right subarrays
+        quick_sort_in_place(arr, low, pivot_index - 1)
+        quick_sort_in_place(arr, pivot_index + 1, high)
+
+def partition(arr, low, high):
+    pivot = arr[high]  # Choose the rightmost element as the pivot
+    i = low - 1       # Index of the smaller element
+
+    for j in range(low, high):
+        # If the current element is smaller than the pivot
+        if arr[j] < pivot:
+            i += 1
+            # Swap the current element with the smaller element
+            arr[i], arr[j] = arr[j], arr[i]
+   
+    # Swap the pivot element with the larger element
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+# Test the in-place function
+arr = [38, 27, 43, 3, 9, 82, 10]
+quick_sort_in_place(arr, 0, len(arr) - 1)
+print("In-place sorted array:", arr)
+```
+
+In this version:
+- The `partition` function arranges the elements around a pivot, ensuring all elements smaller than the pivot are on its left and all greater elements are on its right.
+- `quick_sort_in_place` then recursively applies this process without creating additional arrays, making it an in-place sort.
 
 ## Summary
 Even though selection sort, bubble sort, and insertion sort all have a time complexity of \(O(n^2)\), each has unique characteristics that can make it more suitable in specific situations. Here’s a breakdown of when to use each one:
@@ -314,3 +369,16 @@ Even though selection sort, bubble sort, and insertion sort all have a time comp
      - **Small datasets**: It's often used for small arrays because it’s simple and has low overhead.
      - **Adaptive sorting**: Because it adapts to the initial order of the list, insertion sort can be preferable when you expect the list to have only a few elements out of place.
 
+### 4. **Merge Sort**
+   - **Characteristics**: Merge Sort uses a **divide-and-conquer** approach, splitting the array into smaller halves, sorting them recursively, and merging them back. It is **stable** (preserves the relative order of equal elements) and consistently performs \(O(n \log n)\) comparisons. However, it requires extra memory for the merging process.
+   - **When to Use**:
+     - **Consistent performance**: Ideal when you need predictable \(O(n \log n)\) time complexity.
+     - **Sorting linked lists**: Merge Sort is particularly well-suited for sorting linked lists due to its stability and ability to split nodes without extra memory overhead.
+     - **Stable sort required**: Useful when preserving the relative order of equal elements is important.
+
+### 5. **Quick Sort**
+   - **Characteristics**: Quick Sort is also a **divide-and-conquer** algorithm that partitions the array around a pivot element. It is **not stable** and has an average time complexity of \(O(n \log n)\), but a worst-case complexity of \(O(n^2)\). Quick Sort is usually implemented as an in-place sort, requiring minimal extra memory.
+   - **When to Use**:
+     - **Efficient on average**: Quick Sort is generally faster than Merge Sort for large datasets due to its smaller constant factors.
+     - **In-place sorting**: Suitable for scenarios where memory usage is a concern, as it operates in place.
+     - **Randomized input**: Works well when data is randomly distributed; in these cases, the worst-case \(O(n^2)\) complexity is rare.

@@ -102,6 +102,38 @@ def merge(left, right):
     return sorted_arr
     
 # Test the function
+# arr = [38, 27, 43, 3, 9, 82, 10]
+# sorted_arr = merge_sort(arr)
+# print("Sorted array:", sorted_arr)
+
+# Quick Sort
+
+def quick_sort(arr, low, high):
+    if low < high:
+        # Partition the array and get the pivot index
+        pivot_index = partition(arr, low, high)
+
+        # Recursively apply to the left and right subarrays
+        quick_sort(arr, low, pivot_index-1)
+        quick_sort(arr, pivot_index+1, high)
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+
+    for j in range(low, high):
+        # If the current element is smaller than the pivot
+        if arr[j] < pivot:
+            i += 1
+            # Swap the current element with the smaller element
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    # Swap the pivot element with the larger element
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+
+    return i+1
+
+# Test the in-place function
 arr = [38, 27, 43, 3, 9, 82, 10]
-sorted_arr = merge_sort(arr)
-print("Sorted array:", sorted_arr)
+quick_sort(arr, 0, len(arr) - 1)
+print("In-place sorted array:", arr)
