@@ -54,3 +54,33 @@ Key things to remember:
 1. Always check if your array is sorted first
 2. Be careful with the middle calculation to avoid overflow
 3. Think about edge cases: empty array, target not found, single element
+
+
+## Time Complexity
+
+Binary Search has a time complexity of O(log n), where n is the number of elements in the sorted array
+
+Why it's O(log n):
+
+1. Mathematical Proof:
+   - At each step, we divide the problem size by 2
+   - Starting with n elements:
+     * Step 1: n elements
+     * Step 2: n/2 elements
+     * Step 3: n/4 elements
+     * Step 4: n/8 elements
+     * And so on until we reach 1
+
+2. To find how many steps (k) we need:
+   * n/(2^k) = 1
+   * n = 2^k
+   * Taking log₂ of both sides:
+   * log₂(n) = k
+
+3. Real-world examples show this logarithmic growth:
+   * For n = 8 elements: log₂(8) = 3 steps max
+   * For n = 16 elements: log₂(16) = 4 steps max
+   * For n = 32 elements: log₂(32) = 5 steps max
+   * For n = 1,000,000 elements: log₂(1,000,000) ≈ 20 steps max
+
+This is why Binary Search is so efficient - doubling the input size only adds one extra step to the worst-case scenario. This is the definition of logarithmic growth O(log n).
