@@ -35,42 +35,37 @@ def findFloor(arr, k):
 
 def findFloorCeil(arr, k):
     #Your code here
-    low = 0
-    high = len(arr) - 1
+
+    if not arr:
+        return -1, -1
     
-    floor = float('-inf')
-    ceil = float('-inf')
+    n = len(arr)
     
-    ## floor
-    while low <= high:
-        mid = (low + high) // 2
+    # Edge cases
+    if k < arr[0]:
+        return -1, arr[0]
+    if k > arr[n-1]:
+        return arr[n-1], -1
         
-        if arr[mid] > k:
-            high = mid - 1
-        
-        elif arr[mid] <= k:
-            floor = mid
-            low = mid + 1
+    # Binary search
+    left, right = 0, n-1
+    floor = ceil = -1
     
-    ## Ceil
-    low = 0
-    high = len(arr) - 1
-    while low <= high:
-        mid = (low + high) // 2
+    while left <= right:
+        mid = (left + right) // 2
         
-        if arr[mid] >= k:
-            ceil = mid
-            high = mid - 1
-        
+        if arr[mid] == k:
+            return arr[mid], arr[mid]
+            
         elif arr[mid] < k:
-            low = mid + 1
-    
-    if floor == float('-inf'):
-        return -1, arr[ceil]
-    if ceil == float('-inf'):
-        return arr[floor], -1
-        
-    return arr[floor], arr[ceil]
+            floor = arr[mid]
+            left = mid + 1
+            
+        else:  # arr[mid] > k
+            ceil = arr[mid]
+            right = mid - 1
+            
+    return floor, ceil
 
 
 arr = [4638, 6977, 19284, 23396, 29178, 30918]
