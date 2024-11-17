@@ -21,8 +21,7 @@ class Solution:
         while low <= high:
             # Calculate the middle index
             mid = (low + high) // 2
-            print(mid, nums[mid])  # Debug statement to see mid and its value
-            
+
             # Check which half of the array is sorted
             if nums[low] <= nums[mid]:
                 # Left half is sorted
@@ -35,6 +34,7 @@ class Solution:
                 else:
                     # Target is not in the sorted left half, search in the right half
                     low = mid + 1
+                    
             elif nums[high] >= nums[mid]:
                 # Right half is sorted
                 if nums[mid] == target:
